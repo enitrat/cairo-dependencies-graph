@@ -1,0 +1,5 @@
+digraph G {
+{"tests/main.cairo"} -> {"a","b"}
+{"tests/test_main.cairo"} -> {"a"}
+{"tests/recursive_folder/main_l2.cairo"} -> {"c","d","e"}
+}

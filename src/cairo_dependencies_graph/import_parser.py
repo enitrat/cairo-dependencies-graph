@@ -18,9 +18,10 @@ class ImportParser(Visitor):
         res = []
         for x in elm.code_elements:
             if isinstance(x.code_elm, CodeElementImport):
-                imported_items = x.code_elm.import_items
-                for item in imported_items:
-                    res.append(item.orig_identifier.name)
+                path = x.code_elm.path.name
+                path_formatted = path.replace(".", "/") + ".cairo"
+                res.append(path_formatted)
+                res = [*set(res)]
         return res
     
     def parse_imports(self, cairo_module):

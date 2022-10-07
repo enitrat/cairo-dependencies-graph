@@ -1,4 +1,4 @@
-from starkware.cairo.lang.compiler.ast.code_elements import CodeElementFunction, CodeBlock
+from starkware.cairo.lang.compiler.ast.code_elements import CodeElementFunction, CodeBlock, CodeElementImport
 from starkware.cairo.lang.compiler.ast.visitor import Visitor
 
 
@@ -11,8 +11,18 @@ class ImportParser(Visitor):
         # top-level code is not generated
         return obj
 
-    def visit_CodeElementFunction(self, elm: CodeElementFunction):
-        return super().visit_CodeElementFunction(elm)
-
     def visit_CodeBlock(self, elm: CodeBlock):
-        return super().visit_CodeBlock(elm)
+        return self.extract_imports(elm)
+    
+    def extract_imports(self, elm):
+        res = []
+        for x in elm.code_elements:
+            if isinstance(x.code_elm, CodeElementImport):
+                imported_items = x.code_elm.import_items
+                for item in imported_items:
+                    res.append(item.orig_identifier.name)
+        return res
+    
+    def parse_imports(self, cairo_module):
+        res = self.visit(cairo_module).cairo_file.code_block
+        return res

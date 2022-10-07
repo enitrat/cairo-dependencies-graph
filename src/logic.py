@@ -35,9 +35,6 @@ def generate_graph(directory: str):
 
 
 def write_graphviz_file(graph: Dict):
-    # TODO remove this hardcoded values
-    graph = {'tests/main.cairo': ['a', 'b'], 'tests/test_main.cairo': [
-        'a'], 'tests/recursive_folder/main_l2.cairo': ['c', 'd', 'e']}
     graphviz_file = open("graph.gv", "w")
     graphviz_file.write("digraph G {\n")
     for file, dependencies in graph.items():
@@ -54,7 +51,5 @@ def visit_file(file_path: str):
         cairo_module = CairoModule(
             cairo_ast, module_name=file_path,
         )
-        # Create a class that inherits from Visitor and implement the visit methods for codeBlocks.
-        # This method should parse all the imports and return a list of all the import paths.
-        # dependencies: List[str] = ImportParser().parse_imports(cairo_module)
-        # return dependencies
+        dependencies = ImportParser().parse_imports(cairo_module)
+    return dependencies

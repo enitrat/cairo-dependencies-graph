@@ -6,7 +6,7 @@ class ImportParser(Visitor):
 
     def __init__(self):
         super().__init__()
-        self.extracted_imports
+        self.extracted_imports = []
 
     def _visit_default(self, obj):
         # top-level code is not generated
@@ -17,14 +17,12 @@ class ImportParser(Visitor):
         return super().visit_CodeBlock(elm)
     
     def extract_imports(self, elm):
-        res = []
         for x in elm.code_elements:
             if isinstance(x.code_elm, CodeElementImport):
                 path = x.code_elm.path.name
                 path_formatted = path.replace(".", "/") + ".cairo"
-                res.append(path_formatted)
-                res = [*set(res)]
-        self.extracted_imports = res
+                self.extracted_imports.append(path_formatted)
+        self.extracted_imports = [*set(self.extracted_imports)]
         return 0
     
     def parse_imports(self, cairo_module):

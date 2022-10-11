@@ -14,6 +14,7 @@ func test_increase_balance{syscall_ptr: felt*, range_check_ptr, pedersen_ptr: Ha
     return ();
 }
 
+
 @external
 func test_cannot_increase_balance_with_negative_value{
     syscall_ptr: felt*, range_check_ptr, pedersen_ptr: HashBuiltin*

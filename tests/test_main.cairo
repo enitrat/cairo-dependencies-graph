@@ -1,5 +1,5 @@
 %lang starknet
-from src.main import balance, increase_balance
+from tests.main import balance, increase_balance
 from starkware.cairo.common.cairo_builtins import HashBuiltin
 
 @external
@@ -13,6 +13,7 @@ func test_increase_balance{syscall_ptr: felt*, range_check_ptr, pedersen_ptr: Ha
     assert result_after = 42;
     return ();
 }
+
 
 @external
 func test_cannot_increase_balance_with_negative_value{
